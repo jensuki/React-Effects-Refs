@@ -1,0 +1,17 @@
+.Deck {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    height: 100vh;
+}
+
+button {
+    margin: 50px 0 50px 0;
+    color: white;
+    padding: 10px;
+    background: gray;
+    border: none;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+}
