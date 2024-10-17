@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Card.css';
 
 const Card = ({ image, alt }) => {
-    // generate random rotation between -20 and 20 deg
-    const rotation = Math.floor(Math.random() * 20) - 10;
+    // Use state to store the random rotation only once
+    const [rotation] = useState(Math.floor(Math.random() * 20) - 10);
+
     const cardStyle = {
         transform: `rotate(${rotation}deg)`
     }
+
     return (
         <>
             <img
@@ -16,8 +18,7 @@ const Card = ({ image, alt }) => {
                 style={cardStyle}
             />
         </>
-    )
+    );
 }
-
 
 export default Card;

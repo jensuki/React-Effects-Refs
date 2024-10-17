@@ -7,8 +7,7 @@ const base_url = 'https://deckofcardsapi.com/api/deck';
 
 const Deck = () => {
     const [drawnCards, setDrawnCards] = useState([]); // keep track of drawn cards
-
-
+    const [isShuffling, setIsShuffling] = useState(false);
 
     const deckId = useRef(null); // store deck id so we grab it once in the begining
 
@@ -22,8 +21,6 @@ const Deck = () => {
     }, []) // run only once when component mounts
 
     const drawCard = async () => {
-
-
         const res = await axios.get(`${base_url}/${deckId.current}/draw/?count=1`);
         if (res.data.remaining === 0) {
             alert('No cards remaining!')
@@ -41,9 +38,25 @@ const Deck = () => {
         ])
     }
 
+    // shuffle the deck
+    const shuffleDeck = async () => {
+        if (isShuffling) return; // prevent multiple shuffling actions
+        setIsShuffling(true);
+
+        await axios.get(`${base_url}/${deckId.current}/shuffle/`);
+        setDrawnCards([]); // reset cards after shuffle
+        setIsShuffling(false);
+    }
+
+
     return (
         <div className="Deck">
-            <button onClick={drawCard}>GIMME A CARD!</button>
+            <div className="Deck-btn-wrapper">
+                <button onClick={drawCard}>GIMME A CARD!</button>
+                <button onClick={shuffleDeck} disabled={isShuffling}>
+                    {isShuffling ? "Shuffling..." : "Shuffle Deck"}
+                </button>
+            </div>
             <div className="Deck-cards">
                 {drawnCards.map(card => (
                     <Card key={card.id} image={card.image} alt={`${card.value} of ${card.suit}`} />
